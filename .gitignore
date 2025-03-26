@@ -1,24 +1,31 @@
-# Logs
-logs
-*.log
+# Ignore environment variables and sensitive files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Ignore build files
+.build/
+.out/
+.next/
+.vercel/
+
+# Ignore dependencies lock files (optional, if not using them)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore coverage reports
+coverage/
+*.lcov
+
+# Ignore log files and crash reports
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+*.log
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Ignore system files
+Thumbs.db
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
