@@ -10,6 +10,8 @@
 .out/
 .next/
 .vercel/
+dist/
+build/
 
 # Ignore dependencies lock files (optional, if not using them)
 package-lock.json
@@ -19,6 +21,8 @@ pnpm-lock.yaml
 # Ignore coverage reports
 coverage/
 *.lcov
+.nyc_output/
+jest-html-reporters-*.html
 
 # Ignore log files and crash reports
 npm-debug.log*
@@ -29,3 +33,24 @@ pnpm-debug.log*
 # Ignore system files
 Thumbs.db
 .DS_Store
+*.swp
+*.bak
+*.tmp
+*.orig
+*.log~
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore temporary files
+tmp/
+temp/
+*.tmp
+
+# Ignore node_modules
+node_modules/
