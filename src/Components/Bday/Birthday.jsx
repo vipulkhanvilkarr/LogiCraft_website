@@ -39,7 +39,63 @@ const QUESTIONS = [
   },
   {
     question: "What do you like most about me, my love or ?",
-    answer
+    answer: "nose",
+    note: "tuza mummy la maza face mdhla saglyat jasta kay aavdel ?",
+    helpNote: (
+      <>
+        <b>Haha!</b> Please contact the creator for the answer.<br />
+        Don’t worry! Click the link below to get the answers.<br />
+        <span style={{ color: "#a21caf" }}>Evda contact karaych trass nhi denar 😉</span>
+        <br />
+        <a
+          href="#answers"
+          style={{
+            color: "#fff",
+            background: "#a21caf",
+            padding: "4px 12px",
+            borderRadius: "6px",
+            display: "inline-block",
+            marginTop: "8px",
+            textDecoration: "none",
+            fontWeight: 500,
+          }}
+          onClick={e => {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+          }}
+          id="show-answers-link"
+        >
+          Show Answers
+        </a>
+      </>
+    ),
+  },
+];
+
+const MAX_TRIES = 2;
+
+const Birthday = () => {
+  const [step, setStep] = useState(0);
+  const [input, setInput] = useState("");
+  const [error, setError] = useState("");
+  const [wrongCount, setWrongCount] = useState(0);
+  const [showImage, setShowImage] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [showAnswers, setShowAnswers] = useState(false);
+  const [wrongIndexes, setWrongIndexes] = useState([]);
+
+  useEffect(() => {
+    // Floating hearts and emojis
+    const symbols = ["💖", "🌸", "🌿", "💫", "🕊️", "✨", "🌹"];
+    for (let i = 0; i < 40; i++) {
+      const span = document.createElement("span");
+      span.classList.add("floating");
+      span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      span.style.left = Math.random() * 100 + "vw";
+      span.style.animationDuration = 8 + Math.random() * 4 + "s";
+      span.style.fontSize = 16 + Math.random() * 12 + "px";
+      span.style.animationDelay = Math.random() * 2 + "s";
+      document.body.appendChild(span);
     }
     // Cleanup floating elements on unmount
     return () => {
@@ -47,6 +103,19 @@ const QUESTIONS = [
       floatingElements.forEach((el) => el.remove());
     };
   }, []);
+
+  // Listen for anchor click to show answers page
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.target.closest('a[href="#answers"]')) {
+        e.preventDefault();
+        setWrongIndexes([step]);
+        setShowAnswers(true);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [step]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,10 +139,6 @@ const QUESTIONS = [
       setError("Try again! That's not quite right.");
       const newWrongCount = wrongCount + 1;
       setWrongCount(newWrongCount);
-      if (newWrongCount >= MAX_TRIES) {
-        setWrongIndexes([step]);
-        setShowAnswers(true);
-      }
     }
   };
 
@@ -134,9 +199,15 @@ const QUESTIONS = [
               <div style={{ color: "#f43f5e", marginTop: 8, fontSize: "0.95em" }}>{error}</div>
             )}
             {/* Show note after 1 wrong attempt */}
-            {wrongCount >= 1 && wrongCount < MAX_TRIES && (
+            {wrongCount === 1 && (
               <div style={{ color: "#a21caf", marginTop: 12, fontSize: "0.98em" }}>
                 <b>Note:</b> {QUESTIONS[step].note}
+              </div>
+            )}
+            {/* Show helpNote after 2 wrong attempts */}
+            {wrongCount >= 2 && (
+              <div style={{ color: "#a21caf", marginTop: 12, fontSize: "0.98em" }}>
+                <b>Note:</b> {QUESTIONS[step].helpNote}
               </div>
             )}
           </form>
